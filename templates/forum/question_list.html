@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        {% for question in question_list %}
+            <div id="question-{{ question.id }}">
+                {# <h3><a href="{% url 'forum:question-detail' question.id %}">{{ question.title }}</a></h3> #}
+                <h3><a href="{{ question.get_absolute_url }}">{{ question.title }}</a></h3>
+                <p>
+                    {{ question.text|slice:255 }}
+                    {% if question.text|length > 255 %}
+                        ...
+                    {% endif %}
+                </p>
+
+                <div>
+                    <p>
+                        {{ question.user.username }} &mdash; {{ question.create_time }}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
