@@ -6,6 +6,15 @@
     <p>
         {{ question.text }}
     </p>
+
+    <div class="answer-list">
+        {% for answer in question.answer_set.all %}
+            <div id="answer-{{ answer.pk }}">
+                <h3>{{ answer.user }} &mdash; {{ answer.create_time }}</h3>
+                <p>{{ answer.text }}</p>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock %}

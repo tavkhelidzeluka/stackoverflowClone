@@ -12,7 +12,11 @@
                         ...
                     {% endif %}
                 </p>
-
+                <div>
+                    {% for tag in question.tag_set.all %}
+                        <span style="border: 1px solid black">{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
                 <div>
                     <p>
                         {{ question.user.username }} &mdash; {{ question.create_time }}

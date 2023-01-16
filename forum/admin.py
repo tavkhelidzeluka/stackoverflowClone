@@ -1,9 +1,10 @@
 from django.contrib import admin
 
-from forum.models import Question, Answer
+from forum.models import Question, Answer, Tag
 
 # Register your models here.
 admin.site.register([
     Question,
-    Answer
+    Answer,
+    Tag
 ])
