@@ -2,19 +2,34 @@
 
 {% block content %}
 <div>
-    <h1>{{ question.title }}</h1>
-    <p>
-        {{ question.text }}
-    </p>
-
-    <div class="answer-list">
-        {% for answer in question.answer_set.all %}
-            <div id="answer-{{ answer.pk }}">
-                <h3>{{ answer.user }} &mdash; {{ answer.create_time }}</h3>
-                <p>{{ answer.text }}</p>
+    <div class='container-fluid w-75'>
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>{{ question.title }}</h1>
+            <div class="btn-group" role="group" >
+            {% if question.user == request.user %}
+                <a href="{% url 'forum:question-edit' question.pk %}" class="btn btn-primary">Edit</a>
+                <a class="btn btn-danger">Delete</a>
+            {% endif %}
             </div>
-        {% endfor %}
+        </div>
+        <p>
+            {{ question.text }}
+        </p>
+
+        <div class="answer-list">
+            {% for answer in question.answer_set.all %}
+                <div id="answer-{{ answer.pk }}">
+                    <h3>{{ answer.user }} &mdash; {{ answer.create_time }}</h3>
+                    <p>{{ answer.text }}</p>
+                </div>
+            {% endfor %}
+        </div>
     </div>
+    {% comment %} <form action="{% url 'forum:answer-add' %}" method="POST"> {% endcomment %}
+    {% comment %} <form action="" method="POST">
+        {{ answer_form.as_p }}
+        <button class="btn btn-success">Answer</button>
+    </from> {% endcomment %}
 </div>
 
 {% endblock %}
