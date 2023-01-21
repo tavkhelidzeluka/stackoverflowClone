@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from forum.models import Question
@@ -63,6 +63,16 @@ class QuestionUpdateView(LoginRequiredMixin, UpdateView):
         'title', 'text'
     ]
     template_name = 'forum/question_edit.html'
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return Question.objects.all()
+        return Question.objects.filter(user=self.request.user)
+
+
+class QuestionDeleteView(LoginRequiredMixin, DeleteView):
+    model = Question
+    success_url = reverse_lazy('forum:home')
 
     def get_queryset(self):
         if self.request.user.is_staff:

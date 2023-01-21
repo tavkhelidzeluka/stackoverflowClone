@@ -8,7 +8,7 @@
             <div class="btn-group" role="group" >
             {% if question.user == request.user %}
                 <a href="{% url 'forum:question-edit' question.pk %}" class="btn btn-primary">Edit</a>
-                <a class="btn btn-danger">Delete</a>
+                <a href="{% url 'forum:question-delete' question.pk %}" class="btn btn-danger">Delete</a>
             {% endif %}
             </div>
         </div>
