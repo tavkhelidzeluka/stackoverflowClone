@@ -29,7 +29,8 @@
             </li>
           </ul>
           <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            {{ form.q }}
+            {% comment %} <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search" value="{% if form.q.value %}{{ form.q.value }}{% endif %}"> {% endcomment %}
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
         </div>

@@ -4,14 +4,23 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from forum.models import Question
-from forum.forms import QuestionCreateForm
+from forum.forms import QuestionCreateForm, SearchForm
 
 
 # Create your views here.
 class HomeView(ListView):
-    queryset = Question.objects.all()
     model = Question
     template_name = 'forum/question_list.html'
+    paginate_by = 50
+    
+    def get_queryset(self):
+        return Question.objects.filter(title__icontains=self.request.GET.get('q', ''))
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = SearchForm(self.request.GET)
+        return context
+    
 
 class QuestionDetailView(DetailView):
     model = Question
@@ -57,24 +66,21 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
     
 
-class QuestionUpdateView(LoginRequiredMixin, UpdateView):
+class StaffRequiredMixin:
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return Question.objects.all()
+        return Question.objects.filter(user=self.request.user)
+
+
+class QuestionUpdateView(StaffRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Question
     fields = [
         'title', 'text'
     ]
     template_name = 'forum/question_edit.html'
 
-    def get_queryset(self):
-        if self.request.user.is_staff:
-            return Question.objects.all()
-        return Question.objects.filter(user=self.request.user)
 
-
-class QuestionDeleteView(LoginRequiredMixin, DeleteView):
+class QuestionDeleteView(StaffRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Question
     success_url = reverse_lazy('forum:home')
-
-    def get_queryset(self):
-        if self.request.user.is_staff:
-            return Question.objects.all()
-        return Question.objects.filter(user=self.request.user)

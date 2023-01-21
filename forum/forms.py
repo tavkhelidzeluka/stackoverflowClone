@@ -22,3 +22,13 @@ class QuestionCreateForm(forms.ModelForm):
         # fields = [
         #     'user'
         # ]
+
+
+class SearchForm(forms.Form):
+    q = forms.CharField(max_length=120,
+                        widget=forms.TextInput(attrs={
+                            'type': 'search',
+                            'class': 'form-control me-2',
+                            'placeholder': "Search",
+                            'aria-label': "Search"
+                        }))
