@@ -75,9 +75,7 @@ class StaffRequiredMixin:
 
 class QuestionUpdateView(StaffRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Question
-    fields = [
-        'title', 'text'
-    ]
+    fields = ['title', 'text']
     template_name = 'forum/question_edit.html'
 
 
