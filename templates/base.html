@@ -30,9 +30,8 @@
           </ul>
           <div class="d-flex justify-content-between">
             <div>
-              <form class="d-flex" role="search">
-                {{ form.q }}
-                {% comment %} <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search" value="{% if form.q.value %}{{ form.q.value }}{% endif %}"> {% endcomment %}
+              <form action="{% url 'forum:home' %}" class="d-flex" role="search">
+                <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search" value="{% if form.q.value %}{{ form.q.value }}{% endif %}">
                 <button class="btn btn-outline-success" type="submit">Search</button>
               </form>
             </div> 
@@ -45,7 +44,7 @@
                     <a class="btn btn-danger ms-3" href="{% url 'users:auth-logout' %}">Logout</a>
               {% else %}
                   <a class="btn btn-primary ms-3" href="{% url 'users:auth-login' %}">Login</a>
-                  <a class="btn btn-success ms-3" href="{% url 'users:auth-login' %}">Sign up</a>
+                  <a class="btn btn-success ms-3" href="{% url 'users:auth-signup' %}">Sign up</a>
               {% endif %}
             </div>
           </div>
